@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tedblade_app/pages/speakers.page.dart';
 import 'package:tedblade_app/pages/talks.page.dart';
 import 'package:tedblade_app/theme.dart';
 import 'package:http/http.dart' as http;
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         index: _index,
         children: [
           TalksPage(client: client),
-          // TODO: aggiungere pagine per gli speakers
+          SpeakersPage(client: client)
         ],
       ),
 
@@ -66,11 +67,13 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.chat_bubble),
             label: 'Talks',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Speakers'),
+          BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black54,), label: 'Speakers'),
         ],
-        // selectedItemColor: AppTheme.colors.accent,
-        // currentIndex: _selectedIndex,
-        // onTap: _onItemTapped,
+        selectedItemColor: AppTheme.colors.accent,
+        currentIndex: _index,
+        onTap: (index) {
+          setState(() =>  _index = index);
+        },
       ),
     );
   }
