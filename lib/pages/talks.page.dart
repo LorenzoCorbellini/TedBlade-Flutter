@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:tedblade_app/theme.dart';
 import 'package:tedblade_app/fetch_utils.dart';
 import 'package:tedblade_app/widgets/ai_assistant.widget.dart';
 import 'package:tedblade_app/widgets/video_card.widget.dart';
@@ -22,16 +21,21 @@ class _TalksPageState extends State<TalksPage> {
   final controller = ScrollController();
 
   final int _limit = 10;
-  int _page = 0;
+  int _page = 1; // Le pagine iniziano da 1
+  bool _isLoading = false;
 
   void _scrollListener() {
-    if (controller.offset >= controller.position.maxScrollExtent - 100) {
+    if (!_isLoading && controller.offset >= controller.position.maxScrollExtent - 100) {
       fetchNextTalksPage();
     }
   }
 
   void fetchNextTalksPage() {
-    FetchUtils.fetchTalksPaginated(widget.client, _page++, _limit)
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+
+    FetchUtils.fetchTalksPaginated(widget.client, _page, _limit)
       .then((response) {
         if (!mounted) return;
         final body = jsonDecode(response.body);
@@ -39,9 +43,12 @@ class _TalksPageState extends State<TalksPage> {
 
         setState(() {
           talksData.addAll(talks);
+          _page++;
+          _isLoading = false;
         });
       })
       .catchError((error) {
+        _isLoading = false;
         // TODO: display error
         print("Fetch error: $error");
       });

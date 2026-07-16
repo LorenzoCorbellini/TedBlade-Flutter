@@ -21,16 +21,21 @@ class _SpeakersPageState extends State<SpeakersPage> {
   final controller = ScrollController();
 
   final int _limit = 10;
-  int _page = 0;
+  int _page = 1;
+  bool _isLoading = false;
 
   void _scrollListener() {
-    if (controller.offset >= controller.position.maxScrollExtent - 100) {
+    if (!_isLoading && controller.offset >= controller.position.maxScrollExtent - 100) {
       fetchNextSpeakersPage();
     }
   }
 
   void fetchNextSpeakersPage() {
-    FetchUtils.fetchSpeakersPaginated(widget.client, _page++, _limit)
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+
+    FetchUtils.fetchSpeakersPaginated(widget.client, _page, _limit)
       .then((response) {
         if (!mounted) return;
         final body = jsonDecode(response.body);
@@ -38,9 +43,12 @@ class _SpeakersPageState extends State<SpeakersPage> {
 
         setState(() {
           speakersData.addAll(speakers);
+          _page++;
+          _isLoading = false;
         });
       })
       .catchError((error) {
+        _isLoading = false;
         // TODO: display error
         print("Fetch error: $error");
       });
