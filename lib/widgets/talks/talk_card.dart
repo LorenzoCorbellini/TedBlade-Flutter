@@ -9,6 +9,7 @@ class TalkFeedCard extends StatelessWidget {
   final String slug;
   final String thumbnailUrl;
   final String speakers;
+  final String url;
 
   const TalkFeedCard({
     super.key,
@@ -18,6 +19,7 @@ class TalkFeedCard extends StatelessWidget {
     required this.slug,
     required this.thumbnailUrl,
     required this.speakers,
+    required this.url,
   });
 
   @override
@@ -32,6 +34,7 @@ class TalkFeedCard extends StatelessWidget {
           'slug': slug,
           'thumbnailUrl': thumbnailUrl,
           'speakers': speakers,
+          'url': url,
         };
 
         Navigator.of(context).pushNamed('/detail', arguments: talkData);

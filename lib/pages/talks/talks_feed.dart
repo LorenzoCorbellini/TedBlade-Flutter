@@ -94,6 +94,7 @@ class _TalksFeedState extends State<TalksFeed> {
                         slug: talk['slug'],
                         thumbnailUrl: talk['thumbnail_url'],
                         speakers: talk['speakers'],
+                        url: talk['url']
                       );
                     } else {
                       return const Padding(
