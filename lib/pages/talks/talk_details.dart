@@ -121,10 +121,19 @@ class _TalkDetailsState extends State<TalkDetails> {
                   ),
                   const SizedBox(height: 12),
                   // Transcript + YT Stats
-                  TalkAccordion(),
+                  TalkAccordion(
+                    transcript: FetchUtils.fetchTalkTranscript(
+                      widget.client,
+                      widget.talkData['slug'],
+                    ),
+                    statistics: widget.talkData['statistics'],
+                  ),
                   const SizedBox(height: 12),
                   UpNextWidget(
-                    nextTalk: FetchUtils.fetchTalkBySlug(widget.client, widget.talkData['watch_next']) 
+                    nextTalk: FetchUtils.fetchTalkBySlug(
+                      widget.client,
+                      widget.talkData['watch_next'],
+                    ),
                   ),
                 ],
               ),
