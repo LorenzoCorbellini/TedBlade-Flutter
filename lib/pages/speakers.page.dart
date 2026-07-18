@@ -23,15 +23,18 @@ class _SpeakersPageState extends State<SpeakersPage> {
   final int _limit = 10;
   int _page = 1;
   bool _isLoading = false;
+  bool _hasMore = true;
 
   void _scrollListener() {
-    if (!_isLoading && controller.offset >= controller.position.maxScrollExtent - 100) {
+    if (_isLoading || !_hasMore) return;
+
+    if (controller.offset >= controller.position.maxScrollExtent - 100) {
       fetchNextSpeakersPage();
     }
   }
 
   void fetchNextSpeakersPage() {
-    if (_isLoading) return;
+    if (_isLoading || !_hasMore) return;
 
     setState(() => _isLoading = true);
 
@@ -40,9 +43,11 @@ class _SpeakersPageState extends State<SpeakersPage> {
         if (!mounted) return;
         final body = jsonDecode(response.body);
         final speakers = body['data'];
+        final apiHasMore = body['meta']['hasMore'];
 
         setState(() {
           speakersData.addAll(speakers);
+          _hasMore = apiHasMore;
           _page++;
           _isLoading = false;
         });

@@ -23,15 +23,18 @@ class _TalksPageState extends State<TalksPage> {
   final int _limit = 10;
   int _page = 1; // Le pagine iniziano da 1
   bool _isLoading = false;
+  bool _hasMore = true;
 
   void _scrollListener() {
-    if (!_isLoading && controller.offset >= controller.position.maxScrollExtent - 100) {
+    if (_isLoading || !_hasMore) return;
+
+    if (controller.offset >= controller.position.maxScrollExtent - 100) {
       fetchNextTalksPage();
     }
   }
 
   void fetchNextTalksPage() {
-    if (_isLoading) return;
+    if (_isLoading || !_hasMore) return;
 
     setState(() => _isLoading = true);
 
@@ -40,8 +43,10 @@ class _TalksPageState extends State<TalksPage> {
         if (!mounted) return;
         final body = jsonDecode(response.body);
         final talks = body['data'];
+        final apiHasMore = body['meta']['hasMore'];
 
         setState(() {
+          _hasMore = apiHasMore;
           talksData.addAll(talks);
           _page++;
           _isLoading = false;
