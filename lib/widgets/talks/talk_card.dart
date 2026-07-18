@@ -3,40 +3,20 @@ import 'package:intl/intl.dart';
 import 'package:tedblade_app/theme.dart';
 
 class TalkFeedCard extends StatelessWidget {
-  final String title;
-  final String duration;
-  final dynamic views;
-  final String slug;
-  final String thumbnailUrl;
-  final String speaker;
-  final String url;
+  final Map<String, dynamic> talkData;
 
   const TalkFeedCard({
     super.key,
-    required this.title,
-    required this.duration,
-    required this.views,
-    required this.slug,
-    required this.thumbnailUrl,
-    required this.speaker,
-    required this.url,
+    required this.talkData
   });
 
   @override
   Widget build(BuildContext context) {
+    final views = talkData['statistics'];
+
     return GestureDetector(
       // Open talk profile on tap
       onTap: () {
-        final Map<String, dynamic> talkData = {
-          'title': title,
-          'duration': duration,
-          'views': views,
-          'slug': slug,
-          'thumbnailUrl': thumbnailUrl,
-          'speaker': speaker,
-          'url': url,
-        };
-
         Navigator.of(context).pushNamed('/detail', arguments: talkData);
       },
       // Visual elements
@@ -54,7 +34,7 @@ class TalkFeedCard extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Image.network(
-                  thumbnailUrl,
+                  talkData['thumbnail_url'],
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
@@ -86,7 +66,7 @@ class TalkFeedCard extends StatelessWidget {
                 children: [
                   // Title
                   Text(
-                    title,
+                    talkData['title'],
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.text.semiBold.copyWith(
@@ -107,7 +87,7 @@ class TalkFeedCard extends StatelessWidget {
                       Expanded(
                         // Speaker name
                         child: Text(
-                          speaker,
+                          talkData['speakers'],
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

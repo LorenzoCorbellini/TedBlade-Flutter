@@ -88,13 +88,7 @@ class _TalksFeedState extends State<TalksFeed> {
                     if (index < talksData.length) {
                       final talk = talksData[index];
                       return TalkFeedCard(
-                        title: talk['title'],
-                        duration: talk['duration'],
-                        views: talk['statistics'],
-                        slug: talk['slug'],
-                        thumbnailUrl: talk['thumbnail_url'],
-                        speaker: talk['speakers'],
-                        url: talk['url']
+                        talkData: talk,
                       );
                     } else {
                       return const Padding(
