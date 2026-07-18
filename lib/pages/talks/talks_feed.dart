@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tedblade_app/fetch_utils.dart';
-import 'package:tedblade_app/widgets/common/ai_assistant.widget.dart';
-import 'package:tedblade_app/widgets/talks/talk_card.widget.dart';
+import 'package:tedblade_app/widgets/common/ai_assistant.dart';
+import 'package:tedblade_app/widgets/talks/talk_card.dart';
 import 'package:http/http.dart' as http;
 
 class TalksFeed extends StatefulWidget {

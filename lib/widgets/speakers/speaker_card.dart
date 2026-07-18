@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tedblade_app/pages/speakers/speaker_details.dart';
 import 'package:tedblade_app/theme.dart';
 
 class SpeakerFeedCard extends StatelessWidget {
@@ -20,10 +19,14 @@ class SpeakerFeedCard extends StatelessWidget {
     return GestureDetector(
       // Open speaker's profile on tap
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SpeakerProfile()),
-        );
+        final Map<String, dynamic> speakerData = {
+          'name': name,
+          'talkSlugs': talkSlugs,
+          'thumbnailUrl': thumbnailUrl
+        };
+
+        //FIXME non trova il generator
+        Navigator.of(context).pushNamed('/detail', arguments: speakerData);
       },
       // Visual elements
       child: Container(

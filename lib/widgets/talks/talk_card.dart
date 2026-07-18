@@ -30,7 +30,7 @@ class TalkFeedCard extends StatelessWidget {
           'duration': duration,
           'statistics': views,
           'slug': slug,
-          'thumbnail_url': thumbnailUrl,
+          'thumbnailUrl': thumbnailUrl,
           'speakers': speakers,
         };
 

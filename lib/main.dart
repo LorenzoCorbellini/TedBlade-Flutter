@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tedblade_app/pages/home.page.dart';
+import 'package:tedblade_app/pages/home.dart';
 void main() {
   runApp(const MyApp());
 }

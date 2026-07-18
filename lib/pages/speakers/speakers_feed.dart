@@ -1,22 +1,22 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tedblade_app/fetch_utils.dart';
-import 'package:tedblade_app/widgets/common/ai_assistant.widget.dart';
-import 'package:tedblade_app/widgets/speakers/speaker_card.widget.dart';
+import 'package:tedblade_app/widgets/common/ai_assistant.dart';
+import 'package:tedblade_app/widgets/speakers/speaker_card.dart';
 import 'package:http/http.dart' as http;
 
-class SpeakersPage extends StatefulWidget {
+class SpeakersFeed extends StatefulWidget {
   final http.Client client;
 
-  const SpeakersPage({super.key, required this.client});
+  const SpeakersFeed({super.key, required this.client});
 
   @override
   State<StatefulWidget> createState() {
-    return _SpeakersPageState();
+    return _SpeakersFeedState();
   }
 }
 
-class _SpeakersPageState extends State<SpeakersPage> {
+class _SpeakersFeedState extends State<SpeakersFeed> {
   List<dynamic> speakersData = [];
   final controller = ScrollController();
 

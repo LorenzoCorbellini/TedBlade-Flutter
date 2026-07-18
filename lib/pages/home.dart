@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:tedblade_app/pages/speakers/speakers_feed.dart';
+import 'package:tedblade_app/pages/speakers/speakers_navigator.dart';
 import 'package:tedblade_app/pages/talks/talks_navigators.dart';
 import 'package:tedblade_app/theme.dart';
 
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         index: _index,
         children: [
           TalksNavigator(client: client),
-          SpeakersPage(client: client)
+          SpeakersNavigator(client: client)
         ],
       ),
 

@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tedblade_app/widgets/talks/external_thumbnail.widget.dart';
+import 'package:tedblade_app/widgets/talks/external_thumbnail.dart';
 
 class TalkDetails extends StatefulWidget {
 
@@ -20,7 +20,7 @@ class _TalkDetailsState extends State<TalkDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final thumbnailUrl = widget.talkData['thumbnail_url'] ?? '';
+    final thumbnailUrl = widget.talkData['thumbnailUrl'] ?? '';
     final FocusNode focusNode = FocusNode();
 
     return KeyboardListener(
