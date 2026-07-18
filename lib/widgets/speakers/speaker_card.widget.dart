@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tedblade_app/pages/speaker_profile.page.dart';
+import 'package:tedblade_app/pages/speakers/speaker_details.dart';
 import 'package:tedblade_app/theme.dart';
 
 class SpeakerFeedCard extends StatelessWidget {

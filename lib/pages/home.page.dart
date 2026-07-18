@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:tedblade_app/pages/speakers.page.dart';
+import 'package:tedblade_app/pages/speakers/speakers_feed.dart';
 import 'package:tedblade_app/pages/talks/talks_navigators.dart';
 import 'package:tedblade_app/theme.dart';
 

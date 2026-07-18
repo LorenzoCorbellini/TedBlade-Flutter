@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tedblade_app/widgets/external_thumbnail.widget.dart';
+import 'package:tedblade_app/widgets/talks/external_thumbnail.widget.dart';
 
 class TalkDetails extends StatefulWidget {
 
