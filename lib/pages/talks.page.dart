@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tedblade_app/fetch_utils.dart';
 import 'package:tedblade_app/widgets/ai_assistant.widget.dart';
-import 'package:tedblade_app/widgets/video_card.widget.dart';
+import 'package:tedblade_app/widgets/talk_card.widget.dart';
 import 'package:http/http.dart' as http;
 
 class TalksPage extends StatefulWidget {
@@ -87,7 +87,7 @@ class _TalksPageState extends State<TalksPage> {
                   itemBuilder: (context, index) {
                     if (index < talksData.length) {
                       final talk = talksData[index];
-                      return VideoFeedCard(
+                      return TalkFeedCard(
                         title: talk['title'],
                         duration: talk['duration'],
                         views: talk['statistics'],

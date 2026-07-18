@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tedblade_app/pages/speaker_profile.page.dart';
+import 'package:tedblade_app/pages/talk_profile.page.dart';
 import 'package:tedblade_app/theme.dart';
 
-class SpeakerFeedCard extends StatelessWidget {
-  final String name;
-  final List<dynamic> talkSlugs;
+class TalkFeedCard extends StatelessWidget {
+  final String title;
+  final String duration;
+  final dynamic views;
+  final String slug;
   final String thumbnailUrl;
+  final String speakers;
 
-  const SpeakerFeedCard({
+  const TalkFeedCard({
     super.key,
-    required this.name,
-    required this.talkSlugs,
+    required this.title,
+    required this.duration,
+    required this.views,
+    required this.slug,
     required this.thumbnailUrl,
+    required this.speakers,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // Open speaker's profile on tap
+      // Open talk profile on tap
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SpeakerProfile()),
+          MaterialPageRoute(builder: (context) => TalkProfile()),
         );
       },
       // Visual elements
@@ -72,7 +78,7 @@ class SpeakerFeedCard extends StatelessWidget {
                 children: [
                   // Title
                   Text(
-                    name,
+                    title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.text.semiBold.copyWith(
@@ -91,13 +97,15 @@ class SpeakerFeedCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Expanded(
+                        // Speaker name
                         child: Text(
-                          name,
+                          speakers,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 18,
+                            letterSpacing: -0.4,
                           ),
                         ),
                       ),
@@ -105,7 +113,7 @@ class SpeakerFeedCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'views',
+                    '${formatViews(views['viewCount_ted'] ?? '0')} views',
                     style: AppTheme.text.regular.copyWith(fontSize: 14),
                   ),
                 ],
