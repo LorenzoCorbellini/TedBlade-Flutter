@@ -42,7 +42,7 @@ class _TalksNavigatorState extends State<TalksNavigator> {
             case '/detail':
               // Show talk details page
               final args = settings.arguments as Map<String, dynamic>?;
-              builder = (BuildContext context) => TalkDetails(talkData: args ?? {});
+              builder = (BuildContext context) => TalkDetails(talkData: args ?? {}, client: widget.client,);
               break;
             default:
               throw Exception('Unknown route: ${settings.name}');
