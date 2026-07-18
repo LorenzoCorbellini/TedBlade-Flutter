@@ -8,7 +8,7 @@ class TalkFeedCard extends StatelessWidget {
   final dynamic views;
   final String slug;
   final String thumbnailUrl;
-  final String speakers;
+  final String speaker;
   final String url;
 
   const TalkFeedCard({
@@ -18,7 +18,7 @@ class TalkFeedCard extends StatelessWidget {
     required this.views,
     required this.slug,
     required this.thumbnailUrl,
-    required this.speakers,
+    required this.speaker,
     required this.url,
   });
 
@@ -30,10 +30,10 @@ class TalkFeedCard extends StatelessWidget {
         final Map<String, dynamic> talkData = {
           'title': title,
           'duration': duration,
-          'statistics': views,
+          'views': views,
           'slug': slug,
           'thumbnailUrl': thumbnailUrl,
-          'speakers': speakers,
+          'speaker': speaker,
           'url': url,
         };
 
@@ -107,7 +107,7 @@ class TalkFeedCard extends StatelessWidget {
                       Expanded(
                         // Speaker name
                         child: Text(
-                          speakers,
+                          speaker,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

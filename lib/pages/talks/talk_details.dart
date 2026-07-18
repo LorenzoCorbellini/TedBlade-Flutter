@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:tedblade_app/theme.dart';
 import 'package:tedblade_app/widgets/talks/external_thumbnail.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,8 +35,11 @@ class _TalkDetailsState extends State<TalkDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final thumbnailUrl = widget.talkData['thumbnailUrl'] ?? '';
-    final talkUrl = widget.talkData['url'] ?? '';
+    final thumbnailUrl = widget.talkData['thumbnailUrl'];
+    final talkUrl = widget.talkData['url'];
+    final title = widget.talkData['title'];
+    final views = widget.talkData['views'];
+    final speaker = widget.talkData['speaker'];
 
     return KeyboardListener(
       focusNode: _focusNode,
@@ -76,12 +81,42 @@ class _TalkDetailsState extends State<TalkDetails> {
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Unable to open TED'),
-                        ),
+                        const SnackBar(content: Text('Unable to open TED')),
                       );
                     }
                   },
+                ),
+                const SizedBox(height: 12),
+                // Title
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.text.semiBold.copyWith(fontSize: 20),
+                ),
+                // Views
+                Text(
+                  '${formatViews(views['viewCount_ted'])} views',
+                  style: AppTheme.text.light.copyWith(fontSize: 16),
+                ),
+                const SizedBox(height: 2),
+                //Speaker (with person icon)
+                Row(
+                  children: [
+                    // Person icon
+                    const Icon(
+                      Icons.person_outline,
+                      color: Colors.black,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      speaker,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTheme.text.regular.copyWith(fontSize: 18),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -89,5 +124,11 @@ class _TalkDetailsState extends State<TalkDetails> {
         ),
       ),
     );
+  }
+
+  String formatViews(dynamic views) {
+    int viewCount = int.parse(views.toString());
+    final compactFormatter = NumberFormat.compact(locale: 'en');
+    return compactFormatter.format(viewCount);
   }
 }

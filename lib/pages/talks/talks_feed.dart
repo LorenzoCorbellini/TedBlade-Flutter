@@ -93,7 +93,7 @@ class _TalksFeedState extends State<TalksFeed> {
                         views: talk['statistics'],
                         slug: talk['slug'],
                         thumbnailUrl: talk['thumbnail_url'],
-                        speakers: talk['speakers'],
+                        speaker: talk['speakers'],
                         url: talk['url']
                       );
                     } else {
