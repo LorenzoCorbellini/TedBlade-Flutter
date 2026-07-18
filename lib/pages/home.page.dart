@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.chat_bubble),
             label: 'Talks',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black54,), label: 'Speakers'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Speakers'),
         ],
         selectedItemColor: AppTheme.colors.accent,
         currentIndex: _index,
