@@ -5,18 +5,19 @@ import 'package:tedblade_app/widgets/ai_assistant.widget.dart';
 import 'package:tedblade_app/widgets/talk_card.widget.dart';
 import 'package:http/http.dart' as http;
 
-class TalksPage extends StatefulWidget {
+class TalksFeed extends StatefulWidget {
   final http.Client client;
 
-  const TalksPage({super.key, required this.client});
+  const TalksFeed({super.key, required this.client});
 
   @override
   State<StatefulWidget> createState() {
-    return _TalksPageState();
+    return _TalksFeedState();
   }
 }
 
-class _TalksPageState extends State<TalksPage> {
+class _TalksFeedState extends State<TalksFeed> {
+
   List<dynamic> talksData = [];
   final controller = ScrollController();
 
@@ -74,7 +75,6 @@ class _TalksPageState extends State<TalksPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Stack(
       children: [
         talksData.isEmpty

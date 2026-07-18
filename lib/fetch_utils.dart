@@ -16,4 +16,12 @@ class FetchUtils {
     final response = await client.get(url);
     return response;
   }
+
+  static Future<http.Response> fetchTalkTranscript(http.Client client, String slug) async {
+    final url = Uri.parse(
+        'https://rm11pc85ha.execute-api.us-east-1.amazonaws.com/getTalkTranscriptFlat?slug=$slug'
+    );
+    final response = await client.get(url);
+    return response;
+  }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tedblade_app/pages/speakers.page.dart';
-import 'package:tedblade_app/pages/talks.page.dart';
-import 'package:tedblade_app/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:tedblade_app/pages/speakers.page.dart';
+import 'package:tedblade_app/pages/talks/talks_navigators.dart';
+import 'package:tedblade_app/theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: _index,
         children: [
-          TalksPage(client: client),
+          TalksNavigator(client: client),
           SpeakersPage(client: client)
         ],
       ),

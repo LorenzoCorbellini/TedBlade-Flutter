@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tedblade_app/pages/talk_profile.page.dart';
 import 'package:tedblade_app/theme.dart';
 
 class TalkFeedCard extends StatelessWidget {
@@ -26,10 +25,16 @@ class TalkFeedCard extends StatelessWidget {
     return GestureDetector(
       // Open talk profile on tap
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TalkProfile()),
-        );
+        final Map<String, dynamic> talkData = {
+          'title': title,
+          'duration': duration,
+          'statistics': views,
+          'slug': slug,
+          'thumbnail_url': thumbnailUrl,
+          'speakers': speakers,
+        };
+
+        Navigator.of(context).pushNamed('/detail', arguments: talkData);
       },
       // Visual elements
       child: Container(
