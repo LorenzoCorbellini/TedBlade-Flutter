@@ -12,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _index = 0;
   final client = http.Client();
 
@@ -42,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         index: _index,
         children: [
           TalksNavigator(client: client),
-          SpeakersNavigator(client: client)
+          SpeakersNavigator(client: client),
         ],
       ),
 
@@ -72,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: AppTheme.colors.accent,
         currentIndex: _index,
         onTap: (index) {
-          setState(() =>  _index = index);
+          setState(() => _index = index);
         },
       ),
     );
