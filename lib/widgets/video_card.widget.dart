@@ -66,15 +66,17 @@ class VideoFeedCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Titolo
                 Text(
                   title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTheme.text.semiBold.copyWith(fontSize: 20),
+                  style: AppTheme.text.semiBold.copyWith(fontSize: 20, letterSpacing: -0.4),
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
+                    // Person icon
                     const Icon(
                       Icons.person_outline,
                       color: Colors.black,
@@ -82,6 +84,7 @@ class VideoFeedCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Expanded(
+                      // Speaker name
                       child: Text(
                         speakers,
                         maxLines: 1,
@@ -89,6 +92,7 @@ class VideoFeedCard extends StatelessWidget {
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
+                          letterSpacing: -0.4
                         ),
                       ),
                     ),

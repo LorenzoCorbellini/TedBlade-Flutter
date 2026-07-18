@@ -60,15 +60,17 @@ class SpeakerFeedCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Titolo
                 Text(
                   name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTheme.text.semiBold.copyWith(fontSize: 20),
+                  style: AppTheme.text.semiBold.copyWith(fontSize: 20, letterSpacing: -0.4),
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
+                    // Person icon
                     const Icon(
                       Icons.person_outline,
                       color: Colors.black,
