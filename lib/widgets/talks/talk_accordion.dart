@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tedblade_app/theme.dart';
@@ -18,7 +20,7 @@ class TalkAccordion extends StatelessWidget {
       children: <Widget>[
         Card(
           color: AppTheme.colors.secondary,
-          child: const ExpansionTile(
+          child: ExpansionTile(
             title: Row(
               children: [
                 Icon(Icons.format_align_left_outlined, size: 18),
@@ -33,7 +35,59 @@ class TalkAccordion extends StatelessWidget {
                 ),
               ],
             ),
-            children: <Widget>[ListTile(title: Text("aaaaa"))],
+            children: <Widget>[
+              // Handle transcript's Future
+              FutureBuilder(
+                future: transcript,
+                builder: (ctx, snapshot) {
+                  // If still loading, show loading circle
+                  if (ctx.mounted &&
+                      snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+
+                  // If error, display error message
+                  if (snapshot.hasError) {
+                    return const Text('Impossibile caricare il transcript');
+                  }
+
+                  // When data is ready
+                  if (snapshot.hasData) {
+                    final response = snapshot.data!;
+                    final body = jsonDecode(response.body);
+                    final rawTranscript = body['data']['transcript'];
+                    // Split into paragraphs
+                    final List<String> paragraphs = rawTranscript
+                        .split(RegExp(r'\n+'))
+                        .toList();
+
+                    return Container(
+                      constraints: const BoxConstraints(maxHeight: 400),
+                      // Display a list of paragrahs
+                      child: ListView.builder(
+                        itemCount: paragraphs.length,
+                        padding: const EdgeInsets.all(12),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: SelectableText(
+                              paragraphs[index],
+                              style: const TextStyle(fontSize: 13, height: 1.4),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ],
           ),
         ),
         Card(
@@ -99,6 +153,7 @@ class TalkAccordion extends StatelessWidget {
     );
   }
 
+  // Format a single statistic
   String formatStatistic(String stat) {
     int viewCount = int.parse(stat.toString());
     final compactFormatter = NumberFormat.compact(locale: 'en');
