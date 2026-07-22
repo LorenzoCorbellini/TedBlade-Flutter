@@ -36,7 +36,11 @@ class UpNextWidget extends StatelessWidget {
           final response = snapshot.data!;
           final body = jsonDecode(response.body);
           final talk = body['data'];
-          return Card(
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/detail', arguments: talk);
+            },
+            child: Card(
             color: AppTheme.colors.secondary,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -116,6 +120,7 @@ class UpNextWidget extends StatelessWidget {
                 ],
               ),
             ),
+          ),
           );
         }
         return const SizedBox.shrink();
