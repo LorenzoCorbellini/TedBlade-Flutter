@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -102,22 +104,38 @@ class _TalkDetailsState extends State<TalkDetails> {
                   ),
                   const SizedBox(height: 2),
                   //Speaker (with person icon)
-                  Row(
-                    children: [
-                      // Person icon
-                      const Icon(
-                        Icons.person_outline,
-                        color: Colors.black,
-                        size: 18,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
+                  InkWell(
+                    onTap: () async {
+                      final response = await FetchUtils.fetchSpeakerByName(
+                        widget.client,
                         widget.talkData['speakers'],
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.text.regular.copyWith(fontSize: 18),
-                      ),
-                    ],
+                      );
+                      final speakerData = jsonDecode(response.body)['data'];
+
+                      if (!context.mounted) return;
+
+                      Navigator.of(context).pushNamed('/speaker-detail', arguments: speakerData);
+                    },
+                    child: Row(
+                      children: [
+                        // Person icon
+                        const Icon(
+                          Icons.person_outline,
+                          color: Colors.black,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          widget.talkData['speakers'],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.text.regular.copyWith(
+                            fontSize: 18,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 12),
                   // Transcript + YT Stats

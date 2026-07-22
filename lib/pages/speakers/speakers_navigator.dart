@@ -42,7 +42,7 @@ class _SpeakersNavigatorState extends State<SpeakersNavigator> {
             case '/detail':
               // Show speaker details page
               final args = settings.arguments as Map<String, dynamic>?;
-              builder = (BuildContext context) => SpeakerDetails(speakerData: args ?? {});
+              builder = (BuildContext context) => SpeakerDetails(speakerData: args ?? {}, client: widget.client,);
               break;
             default:
               throw Exception('Unknown route: ${settings.name}');

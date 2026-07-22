@@ -22,7 +22,7 @@ class SpeakerFeedCard extends StatelessWidget {
         final Map<String, dynamic> speakerData = {
           'name': name,
           'talkSlugs': talkSlugs,
-          'thumbnailUrl': thumbnailUrl
+          'thumbnail_url': thumbnailUrl
         };
 
         //FIXME non trova il generator

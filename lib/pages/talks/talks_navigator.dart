@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tedblade_app/pages/speakers/speaker_details.dart';
 import 'package:tedblade_app/pages/talks/talk_details.dart';
 import 'package:tedblade_app/pages/talks/talks_feed.dart';
 
@@ -43,6 +44,11 @@ class _TalksNavigatorState extends State<TalksNavigator> {
               // Show talk details page
               final args = settings.arguments as Map<String, dynamic>?;
               builder = (BuildContext context) => TalkDetails(talkData: args ?? {}, client: widget.client,);
+              break;
+            case '/speaker-detail':
+              // Show speaker details page
+              final args = settings.arguments as Map<String, dynamic>?;
+              builder = (BuildContext context) => SpeakerDetails(speakerData: args ?? {}, client: widget.client,);
               break;
             default:
               throw Exception('Unknown route: ${settings.name}');

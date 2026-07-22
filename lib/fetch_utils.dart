@@ -33,5 +33,11 @@ class FetchUtils {
     return response;
   }
 
-  
+  static Future<http.Response> fetchSpeakerByName(http.Client client, String name) async {
+    final url = Uri.parse(
+        'https://rm11pc85ha.execute-api.us-east-1.amazonaws.com/getSpeakerByName?speaker=$name'
+    );
+    final response = await client.get(url);
+    return response;
+  }
 }
