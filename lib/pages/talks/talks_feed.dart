@@ -17,7 +17,6 @@ class TalksFeed extends StatefulWidget {
 }
 
 class _TalksFeedState extends State<TalksFeed> {
-
   List<dynamic> talksData = [];
   final controller = ScrollController();
 
@@ -40,24 +39,32 @@ class _TalksFeedState extends State<TalksFeed> {
     setState(() => _isLoading = true);
 
     FetchUtils.fetchTalksPaginated(widget.client, _page, _limit)
-      .then((response) {
-        if (!mounted) return;
-        final body = jsonDecode(response.body);
-        final talks = body['data'];
-        final apiHasMore = body['meta']['hasMore'];
+        .then((response) {
+          if (!mounted) return;
+          final body = jsonDecode(response.body);
+          final talks = body['data'];
+          final apiHasMore = body['meta']['hasMore'];
 
-        setState(() {
-          _hasMore = apiHasMore;
-          talksData.addAll(talks);
-          _page++;
+          setState(() {
+            _hasMore = apiHasMore;
+            talksData.addAll(talks);
+            _page++;
+            _isLoading = false;
+          });
+        })
+        .catchError((error) {
           _isLoading = false;
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Impossibile caricare il talk: $error'),
+              backgroundColor: Colors.redAccent,
+              duration: const Duration(seconds: 3),
+              behavior: SnackBarBehavior
+                  .floating,
+            ),
+          );
         });
-      })
-      .catchError((error) {
-        _isLoading = false;
-        // TODO: display error
-        print("Fetch error: $error");
-      });
   }
 
   @override
@@ -87,9 +94,7 @@ class _TalksFeedState extends State<TalksFeed> {
                   itemBuilder: (context, index) {
                     if (index < talksData.length) {
                       final talk = talksData[index];
-                      return TalkFeedCard(
-                        talkData: talk,
-                      );
+                      return TalkFeedCard(talkData: talk);
                     } else {
                       return const Padding(
                         padding: EdgeInsets.symmetric(vertical: 32),
@@ -101,7 +106,7 @@ class _TalksFeedState extends State<TalksFeed> {
               ),
 
         // Pulsante assistente AI
-        AiAssistantBtn()
+        AiAssistantBtn(),
       ],
     );
   }

@@ -49,7 +49,6 @@ class _TalkDetailsState extends State<TalkDetails> {
       autofocus: true,
       onKeyEvent: (KeyEvent event) {
         // Bind esc key to 'go back'
-        // FIXME: tasto esc non funzione se cambiamo pagina e torniamo su questa
         if (event is KeyDownEvent &&
             event.logicalKey == LogicalKeyboardKey.escape) {
           if (Navigator.of(context).canPop()) {
@@ -138,6 +137,7 @@ class _TalkDetailsState extends State<TalkDetails> {
                     ),
                   ),
                   const SizedBox(height: 12),
+                  // TODO: add description in another accordion
                   // Transcript + YT Stats
                   TalkAccordion(
                     transcript: FetchUtils.fetchTalkTranscript(
