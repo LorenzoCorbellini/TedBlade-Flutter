@@ -22,11 +22,13 @@ class SpeakerFeedCard extends StatelessWidget {
         final Map<String, dynamic> speakerData = {
           'name': name,
           'talkSlugs': talkSlugs,
-          'thumbnail_url': thumbnailUrl
+          'thumbnail_url': thumbnailUrl,
         };
 
         //FIXME non trova il generator
-        Navigator.of(context).pushNamed('/speaker-detail', arguments: speakerData);
+        Navigator.of(
+          context,
+        ).pushNamed('/speaker-detail', arguments: speakerData);
       },
       // Visual elements
       child: Container(
@@ -73,43 +75,26 @@ class SpeakerFeedCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Title
-                  Text(
-                    name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.text.semiBold.copyWith(
-                      fontSize: 20,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
                   Row(
                     children: [
-                      // Person icon
                       const Icon(
                         Icons.person_outline,
                         color: Colors.black,
                         size: 18,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 6),
                       Expanded(
                         child: Text(
                           name,
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
+                          style: AppTheme.text.semiBold.copyWith(
+                            fontSize: 20,
+                            letterSpacing: -0.4,
                           ),
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'views',
-                    style: AppTheme.text.regular.copyWith(fontSize: 14),
                   ),
                 ],
               ),
