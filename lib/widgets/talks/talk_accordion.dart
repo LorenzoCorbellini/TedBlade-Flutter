@@ -7,17 +7,48 @@ import 'package:tedblade_app/theme.dart';
 class TalkAccordion extends StatelessWidget {
   final Future transcript;
   final Map<String, dynamic> statistics;
+  final String? description;
 
   const TalkAccordion({
     super.key,
     required this.transcript,
     required this.statistics,
+    this.description,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        if (description != null && description!.trim().isNotEmpty)
+          Card(
+            color: AppTheme.colors.secondary,
+            child: ExpansionTile(
+              title: Row(
+                children: [
+                  Icon(Icons.description_outlined, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    'Description',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SelectableText(
+                    description!,
+                    style: const TextStyle(fontSize: 13, height: 1.4),
+                  ),
+                ),
+              ],
+            ),
+          ),
         Card(
           color: AppTheme.colors.secondary,
           child: ExpansionTile(

@@ -144,7 +144,6 @@ class _TalkDetailsState extends State<TalkDetails> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  // TODO: add description in another accordion
                   // Transcript + YT Stats
                   TalkAccordion(
                     transcript: FetchUtils.fetchTalkTranscript(
@@ -152,6 +151,7 @@ class _TalkDetailsState extends State<TalkDetails> {
                       widget.talkData['slug'],
                     ),
                     statistics: widget.talkData['statistics'],
+                    description: widget.talkData['description']?.toString(),
                   ),
                   const SizedBox(height: 12),
                   UpNextWidget(
