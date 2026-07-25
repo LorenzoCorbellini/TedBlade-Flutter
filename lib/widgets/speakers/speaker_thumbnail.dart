@@ -12,7 +12,6 @@ class SpeakerThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasValidUrl = thumbnailUrl.trim().isNotEmpty;
-    print('url: $thumbnailUrl');
 
     return SizedBox(
       width: double.infinity,

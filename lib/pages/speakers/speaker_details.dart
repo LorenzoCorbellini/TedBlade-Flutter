@@ -1,18 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:tedblade_app/widgets/speakers/speaker_thumbnail.dart';
+import 'package:tedblade_app/widgets/speakers/speaker_details_mini.dart';
 
 class SpeakerDetails extends StatefulWidget {
-
   final Map<String, dynamic> speakerData;
   final http.Client client;
 
   const SpeakerDetails({
     super.key,
     required this.speakerData,
-    required this.client
+    required this.client,
   });
 
   @override
@@ -26,7 +24,7 @@ class _SpeakerDetailsState extends State<SpeakerDetails> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
     });
@@ -38,17 +36,17 @@ class _SpeakerDetailsState extends State<SpeakerDetails> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final thumbnailUrl = widget.speakerData['thumbnail_url'] ?? '';
+    print(widget.speakerData);
 
     return KeyboardListener(
       focusNode: _focusNode,
       autofocus: true,
       onKeyEvent: (KeyEvent event) {
         // Bind esc key to 'go back'
-        if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.escape) {
+        if (event is KeyDownEvent &&
+            event.logicalKey == LogicalKeyboardKey.escape) {
           if (Navigator.of(context).canPop()) {
             Navigator.of(context).pop();
           }
@@ -60,7 +58,14 @@ class _SpeakerDetailsState extends State<SpeakerDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SpeakerThumbnail(thumbnailUrl: thumbnailUrl)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 8.0,
+                ),
+                child: SpeakerMini(speakerData: widget.speakerData),
+              ),
+              // SpeakerThumbnail(thumbnailUrl: thumbnailUrl)
             ],
           ),
         ),
