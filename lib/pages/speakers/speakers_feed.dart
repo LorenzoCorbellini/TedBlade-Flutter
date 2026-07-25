@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tedblade_app/fetch_utils.dart';
+import 'package:tedblade_app/search_utils.dart';
 import 'package:tedblade_app/widgets/common/ai_assistant.dart';
 import 'package:tedblade_app/widgets/speakers/speaker_card.dart';
 import 'package:http/http.dart' as http;
 
 class SpeakersFeed extends StatefulWidget {
   final http.Client client;
+  final String searchQuery;
 
-  const SpeakersFeed({super.key, required this.client});
+  const SpeakersFeed({super.key, required this.client, required this.searchQuery});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,13 +22,22 @@ class _SpeakersFeedState extends State<SpeakersFeed> {
   List<dynamic> speakersData = [];
   final controller = ScrollController();
 
-  final int _limit = 10;
+  final int _limit = 25;
   int _page = 1;
   bool _isLoading = false;
   bool _hasMore = true;
 
+  List<dynamic> get visibleSpeakersData {
+    final query = widget.searchQuery.trim();
+    if (query.isEmpty) {
+      return speakersData;
+    }
+
+    return speakersData.where((speaker) => SearchUtils.matchesSpeaker(speaker as Map<String, dynamic>, query)).toList();
+  }
+
   void _scrollListener() {
-    if (_isLoading || !_hasMore) return;
+    if (_isLoading || !_hasMore || widget.searchQuery.isNotEmpty) return;
 
     if (controller.offset >= controller.position.maxScrollExtent - 100) {
       fetchNextSpeakersPage();
@@ -74,33 +85,36 @@ class _SpeakersFeedState extends State<SpeakersFeed> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    final items = visibleSpeakersData;
+
     return Stack(
       children: [
-        speakersData.isEmpty
+        speakersData.isEmpty && _isLoading
             ? const Center(child: CircularProgressIndicator())
-            : Center(
-                child: ListView.builder(
-                  controller: controller,
-                  padding: const EdgeInsets.all(10),
-                  itemCount: speakersData.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index < speakersData.length) {
-                      final speaker = speakersData[index];
-                      return SpeakerFeedCard(
-                        name: speaker['speaker'],
-                        talkSlugs: speaker['talks'],
-                        thumbnailUrl: speaker['thumbnail_url'],
-                      );
-                    } else {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                  },
-                ),
-              ),
+            : items.isEmpty
+                ? Center(
+                    child: Text(
+                      widget.searchQuery.isEmpty
+                          ? 'Nessun speaker disponibile'
+                          : 'Nessuno speaker trovato',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  )
+                : Center(
+                    child: ListView.builder(
+                      controller: controller,
+                      padding: const EdgeInsets.all(10),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final speaker = items[index] as Map<String, dynamic>;
+                        return SpeakerFeedCard(
+                          name: speaker['speaker'],
+                          talkSlugs: speaker['talks'] ?? [],
+                          thumbnailUrl: speaker['thumbnail_url'],
+                        );
+                      },
+                    ),
+                  ),
 
         // Pulsante assistente AI
         AiAssistantBtn()

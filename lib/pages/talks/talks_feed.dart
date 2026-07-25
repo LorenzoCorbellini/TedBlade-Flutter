@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tedblade_app/fetch_utils.dart';
+import 'package:tedblade_app/search_utils.dart';
 import 'package:tedblade_app/widgets/common/ai_assistant.dart';
 import 'package:tedblade_app/widgets/talks/talk_card.dart';
 import 'package:http/http.dart' as http;
 
 class TalksFeed extends StatefulWidget {
   final http.Client client;
+  final String searchQuery;
 
-  const TalksFeed({super.key, required this.client});
+  const TalksFeed({super.key, required this.client, required this.searchQuery});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,13 +22,22 @@ class _TalksFeedState extends State<TalksFeed> {
   List<dynamic> talksData = [];
   final controller = ScrollController();
 
-  final int _limit = 10;
+  final int _limit = 25;
   int _page = 1; // Le pagine iniziano da 1
   bool _isLoading = false;
   bool _hasMore = true;
 
+  List<dynamic> get visibleTalksData {
+    final query = widget.searchQuery.trim();
+    if (query.isEmpty) {
+      return talksData;
+    }
+
+    return talksData.where((talk) => SearchUtils.matchesTalk(talk as Map<String, dynamic>, query)).toList();
+  }
+
   void _scrollListener() {
-    if (_isLoading || !_hasMore) return;
+    if (_isLoading || !_hasMore || widget.searchQuery.isNotEmpty) return;
 
     if (controller.offset >= controller.position.maxScrollExtent - 100) {
       fetchNextTalksPage();
@@ -82,28 +93,32 @@ class _TalksFeedState extends State<TalksFeed> {
 
   @override
   Widget build(BuildContext context) {
+    final items = visibleTalksData;
+
     return Stack(
       children: [
-        talksData.isEmpty
+        talksData.isEmpty && _isLoading
             ? const Center(child: CircularProgressIndicator())
-            : Center(
-                child: ListView.builder(
-                  controller: controller,
-                  padding: const EdgeInsets.all(10),
-                  itemCount: talksData.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index < talksData.length) {
-                      final talk = talksData[index];
-                      return TalkFeedCard(talkData: talk);
-                    } else {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                  },
-                ),
-              ),
+            : items.isEmpty
+                ? Center(
+                    child: Text(
+                      widget.searchQuery.isEmpty
+                          ? 'Nessun talk disponibile'
+                          : 'Nessun talk trovato',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  )
+                : Center(
+                    child: ListView.builder(
+                      controller: controller,
+                      padding: const EdgeInsets.all(10),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final talk = items[index] as Map<String, dynamic>;
+                        return TalkFeedCard(talkData: talk);
+                      },
+                    ),
+                  ),
 
         // Pulsante assistente AI
         AiAssistantBtn(),

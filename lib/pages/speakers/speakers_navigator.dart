@@ -6,8 +6,9 @@ import 'package:tedblade_app/pages/talks/talk_details.dart';
 
 class SpeakersNavigator extends StatefulWidget {
   final http.Client client;
+  final String searchQuery;
 
-  const SpeakersNavigator({super.key, required this.client});
+  const SpeakersNavigator({super.key, required this.client, this.searchQuery = ''});
 
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +39,7 @@ class _SpeakersNavigatorState extends State<SpeakersNavigator> {
           switch (settings.name) {
             case '/':
               // Show feed page
-              builder = (BuildContext context) => SpeakersFeed(client: widget.client);
+              builder = (BuildContext context) => SpeakersFeed(client: widget.client, searchQuery: widget.searchQuery);
               break;
             case '/detail':
             case '/speaker-detail':
