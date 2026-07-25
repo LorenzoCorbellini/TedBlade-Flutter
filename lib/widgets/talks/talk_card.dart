@@ -17,7 +17,7 @@ class TalkFeedCard extends StatelessWidget {
     return GestureDetector(
       // Open talk profile on tap
       onTap: () {
-        Navigator.of(context).pushNamed('/detail', arguments: talkData);
+        Navigator.of(context).pushNamed('/talk-detail', arguments: talkData);
       },
       // Visual elements
       child: Container(

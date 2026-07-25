@@ -41,9 +41,14 @@ class _TalksNavigatorState extends State<TalksNavigator> {
               builder = (BuildContext context) => TalksFeed(client: widget.client);
               break;
             case '/detail':
-              // Show talk details page
+              // Show talk details page (legacy name)
               final args = settings.arguments as Map<String, dynamic>?;
               builder = (BuildContext context) => TalkDetails(talkData: args ?? {}, client: widget.client,);
+              break;
+            case '/talk-detail':
+              // Show talk details page (explicit name to avoid collisions with other navigators)
+              final args2 = settings.arguments as Map<String, dynamic>?;
+              builder = (BuildContext context) => TalkDetails(talkData: args2 ?? {}, client: widget.client,);
               break;
             case '/speaker-detail':
               // Show speaker details page

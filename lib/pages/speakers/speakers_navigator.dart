@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:tedblade_app/pages/speakers/speaker_details.dart';
 import 'package:tedblade_app/pages/speakers/speakers_feed.dart';
+import 'package:tedblade_app/pages/talks/talk_details.dart';
 
 class SpeakersNavigator extends StatefulWidget {
   final http.Client client;
@@ -40,9 +41,15 @@ class _SpeakersNavigatorState extends State<SpeakersNavigator> {
               builder = (BuildContext context) => SpeakersFeed(client: widget.client);
               break;
             case '/detail':
+            case '/speaker-detail':
               // Show speaker details page
               final args = settings.arguments as Map<String, dynamic>?;
               builder = (BuildContext context) => SpeakerDetails(speakerData: args ?? {}, client: widget.client,);
+              break;
+            case '/talk-detail':
+              // Show talk details page from the speakers flow
+              final args = settings.arguments as Map<String, dynamic>?;
+              builder = (BuildContext context) => TalkDetails(talkData: args ?? {}, client: widget.client,);
               break;
             default:
               throw Exception('Unknown route: ${settings.name}');

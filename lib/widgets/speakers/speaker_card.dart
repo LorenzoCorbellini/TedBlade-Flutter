@@ -26,7 +26,7 @@ class SpeakerFeedCard extends StatelessWidget {
         };
 
         //FIXME non trova il generator
-        Navigator.of(context).pushNamed('/detail', arguments: speakerData);
+        Navigator.of(context).pushNamed('/speaker-detail', arguments: speakerData);
       },
       // Visual elements
       child: Container(

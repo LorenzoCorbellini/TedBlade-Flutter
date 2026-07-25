@@ -5,24 +5,36 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:tedblade_app/pages/speakers/speakers_navigator.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // // Build our app and trigger a frame.
-    // await tester.pumpWidget(const MyApp());
+  testWidgets('Speakers navigator supports the speaker-detail route', (WidgetTester tester) async {
+    final client = http.Client();
+    addTearDown(client.close);
 
-    // // Verify that our counter starts at 0.
-    // expect(find.text('0'), findsOneWidget);
-    // expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: SpeakersNavigator(client: client),
+      ),
+    );
 
-    // // Tap the '+' icon and trigger a frame.
-    // await tester.tap(find.byIcon(Icons.add));
-    // await tester.pump();
+    await tester.pump();
 
-    // // Verify that our counter has incremented.
-    // expect(find.text('0'), findsNothing);
-    // expect(find.text('1'), findsOneWidget);
+    final navigator = tester.state<NavigatorState>(find.byType(Navigator).last);
+
+    expect(
+      () => navigator.pushNamed(
+        '/speaker-detail',
+        arguments: {
+          'name': 'Ada Lovelace',
+          'thumbnail_url': '',
+          'talkSlugs': [],
+        },
+      ),
+      returnsNormally,
+    );
   });
 }

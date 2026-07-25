@@ -109,7 +109,14 @@ class _TalkDetailsState extends State<TalkDetails> {
                         widget.client,
                         widget.talkData['speakers'],
                       );
-                      final speakerData = jsonDecode(response.body)['data'];
+                      final raw = jsonDecode(response.body)['data'];
+
+                      // Normalize API response to the shape expected by SpeakerDetails
+                      final Map<String, dynamic> speakerData = {
+                        'name': raw['name'] ?? raw['speaker'],
+                        'thumbnail_url': raw['thumbnail_url'] ?? raw['thumbnailUrl'] ?? '',
+                        'talkSlugs': raw['talkSlugs'] ?? raw['talks'] ?? [],
+                      };
 
                       if (!context.mounted) return;
 

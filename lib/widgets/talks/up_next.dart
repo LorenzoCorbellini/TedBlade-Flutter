@@ -38,7 +38,7 @@ class UpNextWidget extends StatelessWidget {
           final talk = body['data'];
           return GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/detail', arguments: talk);
+              Navigator.of(context).pushNamed('/talk-detail', arguments: talk);
             },
             child: Card(
             color: AppTheme.colors.secondary,
